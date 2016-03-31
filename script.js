@@ -5,6 +5,7 @@ $(document).on('ready',function(){
 	var canvas = document.getElementById("canvas");
 	var ctx = canvas.getContext("2d");
 	var barre;
+    var balle;
 	var score=0;
 	var timerRefresh;
 	
@@ -20,12 +21,12 @@ $(document).on('ready',function(){
 	
 	
 
-	var Balle = function(x,y)
+	var creationBalle = function(x,y)
 	{
 		this.x = x;
 		this.y = y;
 		this.radius = 10;
-		this.couleur = "#000000";
+		this.couleur = "#FF00000";
 		this.vitesseX = 0;
 		this.vitesseY = 0;
 	}
@@ -44,7 +45,7 @@ $(document).on('ready',function(){
 	{  
 		this.largeur= 140;
 		this.hauteur= 10;
-		this.x =canvas.width/2-this.largeur/2;
+		this.x = canvas.width/2-this.largeur/2;
 		this.y = canvas.height-this.hauteur-3;
 		this.couleur='#333333';
 	}
@@ -65,8 +66,10 @@ $(document).on('ready',function(){
 			var b = new Brique(x,y,couleur,pouvoir);
 			listeBriques.push(b);
 		}
+        balle = new creationBalle(canvas.width/2,canvas.height-50);
 		barre = new creationBarre();  
 		timerRefresh = setInterval(refresh, 5);
+
 	}
 
 	function drawLevel()
@@ -78,13 +81,17 @@ $(document).on('ready',function(){
 			ctx.fillStyle = listeBriques[i].couleur;
 			ctx.fillRect(x,y,longBrique,hautBrique);
 		}
+
 		ctx.fillStyle = (barre.couleur);
 		ctx.fillRect(barre.x,barre.y,barre.largeur,barre.hauteur);
-		
+
+        ctx.fillStyle = (balle.couleur);
+        ctx.arc(balle.x, balle.y, balle.radius, 0, 2 * Math.PI);
+        ctx.stroke();
+        
 	}
-	
 	function refresh(){ 
 		
 	}  
-	
+
 }); 
