@@ -9,7 +9,7 @@ $(document).on('ready',function(){
 	var score=0;
 	var timerRefresh; 
 	var direction;
-	
+	var vitesse = 2; 
 	
 	var level = [
 	[0,0,'#333333',1],
@@ -19,9 +19,7 @@ $(document).on('ready',function(){
 	[1,0,'#FF0000',5]
 	];
 
-	var listeBriques = [];
-	
-	
+	var listeBriques = []; 
 
 	var creationBalle = function(x,y)
 	{
@@ -72,12 +70,16 @@ $(document).on('ready',function(){
 		barre = new creationBarre();  
 		timerRefresh = setInterval(refresh, 5);
 		window.addEventListener("keydown", deplacer, false);
-
+		window.addEventListener("keyup", stop, false);  
 	}
 	
 	function deplacer(e){ 
 		if(e.keyCode == 37 || e.keyCode == 39)  
 			direction = e.keyCode; 
+	}
+		
+	function stop(){  
+		direction = 0;
 	}
 
 	function drawLevel()
@@ -95,11 +97,18 @@ $(document).on('ready',function(){
 
         ctx.fillStyle = (balle.couleur);
         ctx.arc(balle.x, balle.y, balle.radius, 0, 2 * Math.PI);
-        ctx.stroke();
+        ctx.fill();
         
 	}
 	function refresh(){  
-		
+		//Gestion de la barre
+		ctx.clearRect(barre.x,barre.y,barre.largeur,barre.hauteur);
+		if(direction == 37 && barre.x >= 0) // Gauche
+			barre.x -= vitesse;
+		else if(direction == 39 && barre.x+barre.largeur <= canvas.width) // Droite
+			barre.x += vitesse;
+		ctx.fillRect(barre.x,barre.y,barre.largeur,barre.hauteur);
+		//Fin de la gestion de la barre
 	}  
 
 }); 
