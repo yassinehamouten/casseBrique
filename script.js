@@ -6,6 +6,7 @@ $(document).on('ready',function(){
 	var ctx = canvas.getContext("2d");
 	var barre;
 	var score=0;
+	var timerRefresh;
 	
 	var level = [
 	[0,0,'#333333',1],
@@ -64,7 +65,8 @@ $(document).on('ready',function(){
 			var b = new Brique(x,y,couleur,pouvoir);
 			listeBriques.push(b);
 		}
-		barre = new creationBarre();
+		barre = new creationBarre();  
+		timerRefresh = setInterval(refresh, 5);
 	}
 
 	function drawLevel()
@@ -80,5 +82,9 @@ $(document).on('ready',function(){
 		ctx.fillRect(barre.x,barre.y,barre.largeur,barre.hauteur);
 		
 	}
+	
+	function refresh(){ 
+		
+	}  
 	
 }); 
