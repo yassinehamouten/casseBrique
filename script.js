@@ -4,6 +4,8 @@ $(document).on('ready',function(){
 	var hautBrique = 30; // Hauteur d'une brique
 	var canvas = document.getElementById("canvas");
 	var ctx = canvas.getContext("2d");
+	var barre;
+	var score=0;
 	
 	var level = [
 	[0,0,'#333333',1],
@@ -37,6 +39,16 @@ $(document).on('ready',function(){
 		this.pouvoir = null;	
 	}
 	
+	var creationBarre = function()
+	{  
+		this.largeur= 140;
+		this.hauteur= 10;
+		this.x =canvas.width/2-this.largeur/2;
+		this.y = canvas.height-this.hauteur-3;
+		this.couleur='#333333';
+	}
+	
+	 
 	initialize();
 	drawLevel();
 	console.log(listeBriques);
@@ -52,6 +64,7 @@ $(document).on('ready',function(){
 			var b = new Brique(x,y,couleur,pouvoir);
 			listeBriques.push(b);
 		}
+		barre = new creationBarre();
 	}
 
 	function drawLevel()
@@ -63,6 +76,9 @@ $(document).on('ready',function(){
 			ctx.fillStyle = listeBriques[i].couleur;
 			ctx.fillRect(x,y,longBrique,hautBrique);
 		}
+		ctx.fillStyle = (barre.couleur);
+		ctx.fillRect(barre.x,barre.y,barre.largeur,barre.hauteur);
+		
 	}
 	
 }); 
