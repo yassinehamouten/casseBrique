@@ -5,17 +5,19 @@ $(document).on('ready',function(){
 	var canvas = document.getElementById("canvas");
 	var ctx = canvas.getContext("2d");
 	
-	var listeBriques = [
-	[1,1,'#000000'],
-	[1,2,'#13DD32'],
-	[1,4,'#93B0D3'],
-	[1,5,'#2201BC'],
-	[2,1,'#1CDDFF']
+	var level = [
+	[0,0,'#333333',1],
+	[0,1,'#333333',1],
+	[0,3,'#333333',1],
+	[0,4,'#333333',1],
+	[1,0,'#FF0000',5]
 	];
-	
-	drawLevel();
 
-	var balle = function(x,y)
+	var listeBriques = [];
+	
+	
+
+	var Balle = function(x,y)
 	{
 		this.x = x;
 		this.y = y;
@@ -25,23 +27,40 @@ $(document).on('ready',function(){
 		this.vitesseY = 0;
 	}
 
-	var brique = function(x,y,color,pouvoir)
+	var Brique = function(x,y,color,pouvoir)
 	{
 		this.x = x;
 		this.y = y;
 		this.lon = 50;
 		this.lar = 30;
 		this.couleur = color;
-		this.pouvoir = null;
+		this.pouvoir = null;	
+	}
+	
+	initialize();
+	drawLevel();
+	console.log(listeBriques);
+	
+	function initialize()
+	{
+		for(i in level)
+		{
+			var x = (level[i][1])*longBrique;
+			var y = (level[i][0])*hautBrique;
+			var couleur = level[i][2];
+			var pouvoir = 'test';
+			var b = new Brique(x,y,couleur,pouvoir);
+			listeBriques.push(b);
+		}
 	}
 
 	function drawLevel()
 	{
 		for(i in listeBriques)
 		{
-			x = (listeBriques[i][1]-1)*longBrique;
-			y = (listeBriques[i][0]-1)*hautBrique;
-			ctx.fillStyle = (listeBriques[i][2]);
+			x = listeBriques[i].x;
+			y = listeBriques[i].y;
+			ctx.fillStyle = listeBriques[i].couleur;
 			ctx.fillRect(x,y,longBrique,hautBrique);
 		}
 	}
