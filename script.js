@@ -16,7 +16,8 @@ $(document).on('ready',function(){
 	[0,1,'#333333',1],
 	[0,3,'#333333',1],
 	[0,4,'#333333',1],
-	[1,0,'#FF0000',5]
+	[1,0,'#FF0000',5],
+	[2,0,'#00FF00',5]
 	];
 
 	var listeBriques = []; 
@@ -31,14 +32,15 @@ $(document).on('ready',function(){
 		this.vitesseY = 0;
 	}
 
-	var Brique = function(x,y,color,pouvoir)
+	var Brique = function(x,y,color,pouvoir,score)
 	{
 		this.x = x;
 		this.y = y;
 		this.lon = 50;
 		this.lar = 30;
 		this.couleur = color;
-		this.pouvoir = null;	
+		this.pouvoir = null;
+		this.score = score;	
 	}
 	
 	var creationBarre = function()
@@ -98,7 +100,6 @@ $(document).on('ready',function(){
         ctx.fillStyle = (balle.couleur);
         ctx.arc(balle.x, balle.y, balle.radius, 0, 2 * Math.PI);
         ctx.fill();
-        
 	}
 	function refresh(){  
 		//Gestion de la barre
@@ -112,3 +113,8 @@ $(document).on('ready',function(){
 	}  
 
 }); 
+
+$(document).on('click', '#start',function(e)
+{
+	e.preventDefault();
+});
