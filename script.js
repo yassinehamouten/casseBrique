@@ -7,7 +7,9 @@ $(document).on('ready',function(){
 	var barre;
     var balle;
 	var score=0;
-	var timerRefresh;
+	var timerRefresh; 
+	var direction;
+	
 	
 	var level = [
 	[0,0,'#333333',1],
@@ -69,7 +71,13 @@ $(document).on('ready',function(){
         balle = new creationBalle(canvas.width/2,canvas.height-50);
 		barre = new creationBarre();  
 		timerRefresh = setInterval(refresh, 5);
+		window.addEventListener("keydown", deplacer, false);
 
+	}
+	
+	function deplacer(e){ 
+		if(e.keyCode == 37 || e.keyCode == 39)  
+			direction = e.keyCode; 
 	}
 
 	function drawLevel()
@@ -90,7 +98,7 @@ $(document).on('ready',function(){
         ctx.stroke();
         
 	}
-	function refresh(){ 
+	function refresh(){  
 		
 	}  
 
