@@ -10,6 +10,7 @@ $(document).on('ready',function(){
 	var timerRefresh; 
 	var direction;
 	var vitesse = 2; 
+	var pause = 0;
 	
 	var level = [
 	[0,0,'#333333',1],
@@ -109,10 +110,6 @@ $(document).on('ready',function(){
 	}
 	
 	 
-	initialize();
-	drawLevel();
-	console.log(listeBriques);
-	
 	function initialize()
 	{
 		for(i in level)
@@ -124,6 +121,9 @@ $(document).on('ready',function(){
 			var b = new Brique(x,y,couleur,pouvoir);
 			listeBriques.push(b);
 		}
+		score=0;	 
+		pause = 0;
+		
         balle = new creationBalle(canvas.width/2,canvas.height-50);
 		barre = new creationBarre();  
 		timerRefresh = setInterval(refresh, 5);
@@ -157,6 +157,7 @@ $(document).on('ready',function(){
         ctx.arc(balle.x, balle.y, balle.radius, 0, 2 * Math.PI);
         ctx.fill();
 	}
+	
 	function refresh(){  
 		//Gestion de la barre
 		ctx.clearRect(barre.x,barre.y,barre.largeur,barre.hauteur);
@@ -168,13 +169,58 @@ $(document).on('ready',function(){
 		//Fin de la gestion de la barre
 		
 		//Gestion du score
-		$('#score').text(score);
+		$('#score2').text(score);
 		//Fin de la gestion du score
 	}  
-
+	 
+	$(document).on('click', '#start',function(e)
+	{  
+		e.preventDefault();
+		
+		$('#score1').show();
+		$('#restart').show();
+		$('#pause').show();
+		$('#start').hide();
+		
+		initialize();
+		drawLevel(); 
+	
+	});
+	
+	$(document).on('click', '#restart',function(e)
+	{  
+		e.preventDefault();
+		
+		$('#message').text("");  
+		clearInterval(timerRefresh);
+		ctx.clearRect(0,0,canvas.width,canvas.height);
+		
+		initialize();
+		drawLevel(); 
+	});
+	
+	$(document).on('click', '#pause',function(e)
+	{  
+		e.preventDefault();
+		
+		//Mettre en pause
+		if(pause == 0 ){
+			pause = 1;
+			clearInterval(timerRefresh);
+			window.removeEventListener("keydown", deplacer, false);
+			window.removeEventListener("keyup", stop, false);   
+			$('#message').text(" - En pause - ");
+		}
+		else{//Revenir en game
+			pause = 0;
+			timerRefresh = setInterval(refresh, 5);
+			window.addEventListener("keydown", deplacer, false);
+			window.addEventListener("keyup", stop, false);  
+			$('#message').text(""); 
+		}
+		 
+	});
+	
 }); 
 
-$(document).on('click', '#start',function(e)
-{
-	e.preventDefault();
-});
+
