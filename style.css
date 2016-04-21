@@ -1,0 +1,34 @@
+h1
+{
+	font-family: "Montserrat";
+}
+
+.text-center
+{
+	text-align:center;
+}
+
+.editeur-table
+{
+	margin:20px auto 0px auto;	
+}
+
+.editeur-table tr
+{
+
+}
+
+.editeur-table td
+{
+	width:60px;
+	height:20px;
+	border:1px solid grey;
+}
+
+.editeur-table input[type="color"]
+{
+	width:100%;
+	padding:0px;
+	margin:0px;
+	border:none;
+}

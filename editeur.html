@@ -1,0 +1,235 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<title>Éditeur de niveau</title>
+		<link href="bootstrap.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="style.css">
+		<link rel="stylesheet" href="sweetalert.css">
+
+		<style type="text/css">
+			.color-selector
+			{
+				border-radius:10px;
+				width:500px;
+				height:40px;
+				margin:15px auto;
+				border:1px solid lightgrey;
+			}
+
+			.color-selector div
+			{
+				width:30px;
+				height:30px;
+				border-radius: 90px;
+				border:1px solid grey;
+				display: inline-block;
+				margin-top:4px;
+				margin-left:5px;
+			}
+
+			.red {background-color: #FF2222;}
+			.blue {background-color: #2222FF;}
+			.green {background-color: #22FF22;}
+			.yellow {background-color: #FFFF00;}
+			.pink {background-color: #FF4080;}
+			.orange {background-color: #FF8000;}
+			.purple {background-color: #884080;}
+			.delete {color:red; line-height: 0px; position: relative;}
+			.delete:before{content:"x"; position:absolute; top:12px; left:9px; font-size:2rem;}
+
+			.active
+			{
+				border:2px solid black !important;
+			}
+
+			.center
+			{
+				width:200px;
+				margin:auto;
+			}
+
+			#valider
+			{
+				background-color: #884080;
+				padding:10px 25px;
+				margin:auto;
+				width:200px;
+				color:white;
+				text-decoration: none;
+			}
+		</style>
+	</head>
+	<body>
+		<h1 class="text-center">Éditeur de niveau</h1>
+				
+		<table class="editeur-table">
+			<tr>
+				<td data-row="0" data-col="0" data-color="#FFFFFF"></td>
+				<td data-row="0" data-col="1" data-color="#FFFFFF"></td>
+				<td data-row="0" data-col="2" data-color="#FFFFFF"></td>
+				<td data-row="0" data-col="3" data-color="#FFFFFF"></td>
+				<td data-row="0" data-col="4" data-color="#FFFFFF"></td>
+				<td data-row="0" data-col="5" data-color="#FFFFFF"></td>
+				<td data-row="0" data-col="6" data-color="#FFFFFF"></td>
+				<td data-row="0" data-col="7" data-color="#FFFFFF"></td>
+				<td data-row="0" data-col="8" data-color="#FFFFFF"></td>
+				<td data-row="0" data-col="9" data-color="#FFFFFF"></td>
+			</tr>
+			<tr>
+				<td data-row="1" data-col="0" data-color="#FFFFFF"></td>
+				<td data-row="1" data-col="1" data-color="#FFFFFF"></td>
+				<td data-row="1" data-col="2" data-color="#FFFFFF"></td>
+				<td data-row="1" data-col="3" data-color="#FFFFFF"></td>
+				<td data-row="1" data-col="4" data-color="#FFFFFF"></td>
+				<td data-row="1" data-col="5" data-color="#FFFFFF"></td>
+				<td data-row="1" data-col="6" data-color="#FFFFFF"></td>
+				<td data-row="1" data-col="7" data-color="#FFFFFF"></td>
+				<td data-row="1" data-col="8" data-color="#FFFFFF"></td>
+				<td data-row="1" data-col="9" data-color="#FFFFFF"></td>
+			</tr>
+			<tr>
+				<td data-row="2" data-col="0" data-color="#FFFFFF"></td>
+				<td data-row="2" data-col="1" data-color="#FFFFFF"></td>
+				<td data-row="2" data-col="2" data-color="#FFFFFF"></td>
+				<td data-row="2" data-col="3" data-color="#FFFFFF"></td>
+				<td data-row="2" data-col="4" data-color="#FFFFFF"></td>
+				<td data-row="2" data-col="5" data-color="#FFFFFF"></td>
+				<td data-row="2" data-col="6" data-color="#FFFFFF"></td>
+				<td data-row="2" data-col="7" data-color="#FFFFFF"></td>
+				<td data-row="2" data-col="8" data-color="#FFFFFF"></td>
+				<td data-row="2" data-col="9" data-color="#FFFFFF"></td>
+			</tr>
+			<tr>
+				<td data-row="3" data-col="0" data-color="#FFFFFF"></td>
+				<td data-row="3" data-col="1" data-color="#FFFFFF"></td>
+				<td data-row="3" data-col="2" data-color="#FFFFFF"></td>
+				<td data-row="3" data-col="3" data-color="#FFFFFF"></td>
+				<td data-row="3" data-col="4" data-color="#FFFFFF"></td>
+				<td data-row="3" data-col="5" data-color="#FFFFFF"></td>
+				<td data-row="3" data-col="6" data-color="#FFFFFF"></td>
+				<td data-row="3" data-col="7" data-color="#FFFFFF"></td>
+				<td data-row="3" data-col="8" data-color="#FFFFFF"></td>
+				<td data-row="3" data-col="9" data-color="#FFFFFF"></td>
+			</tr>
+			<tr>
+				<td data-row="4" data-col="0" data-color="#FFFFFF"></td>
+				<td data-row="4" data-col="1" data-color="#FFFFFF"></td>
+				<td data-row="4" data-col="2" data-color="#FFFFFF"></td>
+				<td data-row="4" data-col="3" data-color="#FFFFFF"></td>
+				<td data-row="4" data-col="4" data-color="#FFFFFF"></td>
+				<td data-row="4" data-col="5" data-color="#FFFFFF"></td>
+				<td data-row="4" data-col="6" data-color="#FFFFFF"></td>
+				<td data-row="4" data-col="7" data-color="#FFFFFF"></td>
+				<td data-row="4" data-col="8" data-color="#FFFFFF"></td>
+				<td data-row="4" data-col="9" data-color="#FFFFFF"></td>
+			</tr>
+			<tr>
+				<td data-row="5" data-col="0" data-color="#FFFFFF"></td>
+				<td data-row="5" data-col="1" data-color="#FFFFFF"></td>
+				<td data-row="5" data-col="2" data-color="#FFFFFF"></td>
+				<td data-row="5" data-col="3" data-color="#FFFFFF"></td>
+				<td data-row="5" data-col="4" data-color="#FFFFFF"></td>
+				<td data-row="5" data-col="5" data-color="#FFFFFF"></td>
+				<td data-row="5" data-col="6" data-color="#FFFFFF"></td>
+				<td data-row="5" data-col="7" data-color="#FFFFFF"></td>
+				<td data-row="5" data-col="8" data-color="#FFFFFF"></td>
+				<td data-row="5" data-col="9" data-color="#FFFFFF"></td>
+			</tr>
+			<tr>
+				<td data-row="6" data-col="0" data-color="#FFFFFF"></td>
+				<td data-row="6" data-col="1" data-color="#FFFFFF"></td>
+				<td data-row="6" data-col="2" data-color="#FFFFFF"></td>
+				<td data-row="6" data-col="3" data-color="#FFFFFF"></td>
+				<td data-row="6" data-col="4" data-color="#FFFFFF"></td>
+				<td data-row="6" data-col="5" data-color="#FFFFFF"></td>
+				<td data-row="6" data-col="6" data-color="#FFFFFF"></td>
+				<td data-row="6" data-col="7" data-color="#FFFFFF"></td>
+				<td data-row="6" data-col="8" data-color="#FFFFFF"></td>
+				<td data-row="6" data-col="9" data-color="#FFFFFF"></td>
+			</tr>
+			<tr>
+				<td data-row="7" data-col="0" data-color="#FFFFFF"></td>
+				<td data-row="7" data-col="1" data-color="#FFFFFF"></td>
+				<td data-row="7" data-col="2" data-color="#FFFFFF"></td>
+				<td data-row="7" data-col="3" data-color="#FFFFFF"></td>
+				<td data-row="7" data-col="4" data-color="#FFFFFF"></td>
+				<td data-row="7" data-col="5" data-color="#FFFFFF"></td>
+				<td data-row="7" data-col="6" data-color="#FFFFFF"></td>
+				<td data-row="7" data-col="7" data-color="#FFFFFF"></td>
+				<td data-row="7" data-col="8" data-color="#FFFFFF"></td>
+				<td data-row="7" data-col="9" data-color="#FFFFFF"></td>
+			</tr>
+		</table>
+
+		<div class="color-selector">
+			<div class="red" data-color="#FF2222"></div>
+			<div class="blue" data-color="#2222FF"></div>
+			<div class="green" data-color="#22FF22"></div>
+			<div class="yellow" data-color="#FFFF00"></div>
+			<div class="pink" data-color="#FF4080"></div>
+			<div class="orange" data-color="#FF8000"></div>
+			<div class="purple" data-color="#884080"></div>
+			<div class="delete" data-color="#FFFFFF"></div>
+		</div>
+
+		<div class="center"><a id="valider" href="#">Valider</a></div>
+
+		<script src="jquery-2.2.1.min.js"></script>
+		<script src="sweetalert.min.js"></script>
+		<script>
+		var col_change = 0;
+		var row_change = 0;
+		var active_color = null;
+		
+		var mousedown = 0;
+
+		$(".editeur-table td").hover(function(){
+			//$( "#color" ).trigger( "click" );
+			//col_change = $(this).data('col');
+			//row_change = $(this).data('row');
+			if(mousedown == 1)
+			{
+				$(this).css('background-color',active_color);
+				$(this).attr('data-color',active_color);
+				console.log(active_color);
+			}
+			
+		});
+
+		$("#color").change(function(){
+			//$('td[data-row=' + row_change +'][data-col=' + col_change + ']').css('background-color','red');
+		});
+
+		$(".color-selector div").click(function(){
+			$(".color-selector div").removeClass('active');
+			$(this).addClass('active');
+			active_color = $(".color-selector div.active").data('color');
+		});
+
+		$("table").mousedown(function(){
+			mousedown = 1;
+		});
+
+		$(document).mouseup(function(){
+			mousedown = 0;
+		});
+
+		$("#valider").click(function(){
+			var code = "[";
+			$(".editeur-table td").each(function(){
+				if($(this).data('color') != '#FFFFFF')
+				{
+					code = code + "[" + $(this).data('row') + ',' + $(this).data('col') + ', "' + $(this).data('color') + '", 1],';
+				}				
+			});
+			code = code + "];";
+			swal({   title: "Code",   text: "Voila ton code : " + code,   type: "success",   confirmButtonText: "Cool" });
+		});
+
+		window.onbeforeunload = function(e) {
+       		//return 'Attention, voulez-vous vraiment fermer cette page ? Les changements seront perdus !';
+    	};
+
+		</script>
+	</body>
+</html>
