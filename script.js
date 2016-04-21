@@ -1,6 +1,6 @@
 $(document).on('ready',function(){
 	
-	var longBrique = 50; // Longueur d'une brique
+	var longBrique = 48; // Longueur d'une brique
 	var hautBrique = 30; // Hauteur d'une brique
 	var canvas = document.getElementById("canvas");
 	var ctx = canvas.getContext("2d");
@@ -117,8 +117,8 @@ $(document).on('ready',function(){
 	{
 		for(i in level)
 		{
-			var x = (level[i][1])*longBrique;
-			var y = (level[i][0])*hautBrique;
+			var x = (level[i][1])*longBrique + (level[i][1] * 2);
+			var y = (level[i][0])*hautBrique + (level[i][0] * 2);
 			var couleur = level[i][2];
 			var pouvoir = 'test';
 			var b = new Brique(x,y,couleur,pouvoir);
