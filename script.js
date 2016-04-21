@@ -166,6 +166,10 @@ $(document).on('ready',function(){
 			barre.x += vitesse;
 		ctx.fillRect(barre.x,barre.y,barre.largeur,barre.hauteur);
 		//Fin de la gestion de la barre
+		
+		//Gestion du score
+		$('#score').text(score);
+		//Fin de la gestion du score
 	}  
 
 }); 
