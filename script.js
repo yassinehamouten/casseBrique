@@ -125,7 +125,7 @@ $(document).on('ready', function () {
         barre = new creationBarre();
         timerRefresh = setInterval(refresh, 5);
         window.addEventListener("keydown", deplacer, false);
-        window.addEventListener("keyup", stop, false);
+        window.addEventListener("keyup", stop, false);  
     }
 
     function deplacer(e) {
@@ -141,8 +141,14 @@ $(document).on('ready', function () {
         for (i in listeBriques) {
             x = listeBriques[i].x;
             y = listeBriques[i].y;
-            ctx.fillStyle = listeBriques[i].couleur;
-            ctx.fillRect(x, y, longBrique, hautBrique);
+            if(balle.x >= x && balle.x <= x+longBrique && balle.y > y && balle.y < y+hautBrique){ 
+				listeBriques.splice(i,1);
+			}
+			else{
+				ctx.fillStyle = listeBriques[i].couleur;
+				ctx.fillRect(x, y, longBrique, hautBrique);
+			}
+           
         }
 
         ctx.fillStyle = (barre.couleur);
@@ -172,7 +178,7 @@ $(document).on('ready', function () {
         if (balle.direction_x == 0)
             balle.direction_x = -1;
         if (balle.direction_y == 0)
-            balle.direction_y = 1;
+            balle.direction_y = 1; 
 
         if (balle.x + 10 == canvas.width) {
             //si la balle touche a droite
@@ -191,7 +197,7 @@ $(document).on('ready', function () {
 
         if (balle.y + 10 == canvas.height) {
             //si la balle touche en bas
-            if(balle.x >= barre.x && balle.x <= barre.x+barre.largeur+balle.radius/2 && balle.y > barre.y-balle.radius+2 && balle.y < barre.y+barre.hauteur-4){
+            if(balle.x >= barre.x && balle.x <= barre.x+barre.largeur+balle.radius/2 && balle.y > barre.y-balle.radius+2 && balle.y < barre.y+barre.hauteur-5){
 				balle.direction_y = balle.direction_y * (-1);
 				balle.y = balle.y + balle.direction_y;
 			}
@@ -223,10 +229,10 @@ $(document).on('ready', function () {
     }
     
      function gameOver() { 
-            clearInterval(timerRefresh);
-            window.removeEventListener("keydown", deplacer, false);
-            window.removeEventListener("keyup", stop, false);
-            $('#message').text(" - Perdu - ");
+		clearInterval(timerRefresh);
+		window.removeEventListener("keydown", deplacer, false);
+		window.removeEventListener("keyup", stop, false);
+		$('#message').text(" - Perdu - ");
 	 }
 
     $(document).on('click', '#start', function (e) {
