@@ -182,7 +182,7 @@ $(document).on('ready', function () {
             if (balle.x - 10 == 0) {
                 //si la balle touche a gauche
                 balle.direction_x = balle.direction_x * (-1);
-                console.log(balle.direction_x);
+                //console.log(balle.direction_x);
                 balle.x = balle.x + balle.direction_x;
             } else {
                 balle.x = balle.x + balle.direction_x;
@@ -191,13 +191,18 @@ $(document).on('ready', function () {
 
         if (balle.y + 10 == canvas.height) {
             //si la balle touche en bas
-            balle.direction_y = balle.direction_y * (-1);
-            balle.y = balle.y + balle.direction_y;
+            if(balle.x >= barre.x && balle.x <= barre.x+barre.largeur+balle.radius/2 && balle.y > barre.y-balle.radius+2 && balle.y < barre.y+barre.hauteur-4){
+				balle.direction_y = balle.direction_y * (-1);
+				balle.y = balle.y + balle.direction_y;
+			}
+			else
+				gameOver(); 
+           
         } else {
             if (balle.y - 10 == 0) {
                 //si la balle touche en haut
                 balle.direction_y = balle.direction_y * (-1);
-                console.log(balle.direction_y);
+                //console.log(balle.direction_y);
                 balle.y = balle.y + balle.direction_y;
             } else {
                 balle.y = balle.y + balle.direction_y;
@@ -216,6 +221,13 @@ $(document).on('ready', function () {
         $('#score2').text(score);
         //Fin de la gestion du score
     }
+    
+     function gameOver() { 
+            clearInterval(timerRefresh);
+            window.removeEventListener("keydown", deplacer, false);
+            window.removeEventListener("keyup", stop, false);
+            $('#message').text(" - Perdu - ");
+	 }
 
     $(document).on('click', '#start', function (e) {
         e.preventDefault();
