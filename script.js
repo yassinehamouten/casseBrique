@@ -11,6 +11,7 @@ $(document).on('ready', function () {
     var direction;
     var vitesse = 2;
     var pause = 0;
+    var vie = 3;
 
     var level = [
         [0, 0, '#333333', 1],
@@ -90,14 +91,14 @@ $(document).on('ready', function () {
         this.direction_y = 0;
     }
 
-    var Brique = function (x, y, color, pouvoir, score) {
+    var Brique = function (x, y, color, pouvoir, scoreB) {
         this.x = x;
         this.y = y;
         this.lon = 50;
         this.lar = 30;
         this.couleur = color;
         this.pouvoir = null;
-        this.score = score;
+        this.scoreB = scoreB;
     }
 
     var creationBarre = function () {
@@ -115,11 +116,13 @@ $(document).on('ready', function () {
             var y = (level[i][0]) * hautBrique + (level[i][0] * 2);
             var couleur = level[i][2];
             var pouvoir = 'test';
-            var b = new Brique(x, y, couleur, pouvoir);
+            var scoreB = 1;
+            var b = new Brique(x, y, couleur, pouvoir, scoreB);
             listeBriques.push(b);
         }
         score = 0;
         pause = 0;
+        vie = 3;
 
         balle = new creationBalle(canvas.width / 2, canvas.height - 50);
         barre = new creationBarre();
@@ -141,12 +144,19 @@ $(document).on('ready', function () {
         for (i in listeBriques) {
             x = listeBriques[i].x;
             y = listeBriques[i].y;
+            scoreB = listeBriques[i].scoreB;
+            //Si Collision
             if(balle.x >= x && balle.x <= x+longBrique && balle.y > y && balle.y < y+hautBrique){ 
-				listeBriques.splice(i,1);
+				listeBriques.splice(i,1); 
+				score += scoreB;
 			}
-			else{
+			//Else on affiche
+			else{ 
 				ctx.fillStyle = listeBriques[i].couleur;
 				ctx.fillRect(x, y, longBrique, hautBrique);
+			}
+			if(listeBriques.length <1){
+				win();
 			}
            
         }
@@ -223,22 +233,40 @@ $(document).on('ready', function () {
 
         drawLevel();
 
-        //Gestion du score
+        //Gestion du score et vie
         $('#score2').text(score);
-        //Fin de la gestion du score
+        $('#vie2').text(vie);
+        //Fin de la gestion du score et vie
     }
     
      function gameOver() { 
+		 if(vie>1){
+			vie--;
+			balle.x = canvas.width / 2;
+			balle.y = canvas.height - 10;  
+			barre.x = canvas.width / 2 - barre.largeur / 2;
+			barre.y = canvas.height - barre.hauteur - 3;
+		 }
+		else{
+			clearInterval(timerRefresh);
+			window.removeEventListener("keydown", deplacer, false);
+			window.removeEventListener("keyup", stop, false);
+			$('#message').text(" - Perdu - ");
+		 }
+		
+	 }
+	function win() { 
 		clearInterval(timerRefresh);
 		window.removeEventListener("keydown", deplacer, false);
 		window.removeEventListener("keyup", stop, false);
-		$('#message').text(" - Perdu - ");
+		$('#message').text(" - BRAVO - ");
 	 }
 
     $(document).on('click', '#start', function (e) {
         e.preventDefault();
 
         $('#score1').show();
+        $('#vie1').show();
         $('#restart').show();
         $('#pause').show();
         $('#start').hide();
@@ -249,6 +277,7 @@ $(document).on('ready', function () {
     });
 
     $(document).on('click', '#restart', function (e) {
+		//Restart
         e.preventDefault();
 
         $('#message').text("");
