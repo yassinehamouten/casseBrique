@@ -128,7 +128,7 @@ $(document).on('ready', function () {
         barre = new creationBarre();
         timerRefresh = setInterval(refresh, 5);
         window.addEventListener("keydown", deplacer, false);
-        window.addEventListener("keyup", stop, false);  
+        window.addEventListener("keyup", stop, false);
     }
 
     function deplacer(e) {
@@ -145,20 +145,45 @@ $(document).on('ready', function () {
             x = listeBriques[i].x;
             y = listeBriques[i].y;
             scoreB = listeBriques[i].scoreB;
-            //Si Collision
-            if(balle.x >= x && balle.x <= x+longBrique && balle.y > y && balle.y < y+hautBrique){ 
-				listeBriques.splice(i,1); 
-				score += scoreB;
-			}
-			//Else on affiche
-			else{ 
-				ctx.fillStyle = listeBriques[i].couleur;
-				ctx.fillRect(x, y, longBrique, hautBrique);
-			}
-			if(listeBriques.length <1){
-				win();
-			}
-           
+
+            //## gestion collision brique ##//
+
+            //touche brique partie haute
+            if ((balle.y + balle.radius == y || balle.x + balle.radius == y || balle.x - balle.radius == y ) && balle.x + balle.radius >= x && balle.x + balle.radius <= x + longBrique) {
+                listeBriques.splice(i, 1);
+                score += scoreB;
+                balle.direction_y = balle.direction_y * (-1);
+            }
+            //touche brique partie gauche
+            if (balle.x + balle.radius == x && balle.y + balle.radius >= y && balle.y + balle.radius <= y + hautBrique) {
+                listeBriques.splice(i, 1);
+                score += scoreB;
+                balle.direction_x = balle.direction_x * (-1);
+            }
+            //touche brique partie droite
+            if (balle.x - balle.radius == x + longBrique && balle.y - balle.radius >= y && balle.y - balle.radius <= y + hautBrique) {
+                listeBriques.splice(i, 1);
+                score += scoreB;
+                balle.direction_x = balle.direction_x * (-1);
+            }
+            //touche brique partie basse
+            if ((balle.y - balle.radius == y+hautBrique || balle.x - balle.radius == y+hautBrique || balle.x + balle.radius == y+hautBrique ) && balle.x - balle.radius >= x && balle.x + balle.radius <= x + longBrique) {
+                listeBriques.splice(i, 1);
+                score += scoreB;
+                balle.direction_y = balle.direction_y * (-1);
+            }
+
+            //## Fin gestion collision brique ##//
+
+            //Else on affiche
+            else {
+                ctx.fillStyle = listeBriques[i].couleur;
+                ctx.fillRect(x, y, longBrique, hautBrique);
+            }
+            if (listeBriques.length < 1) {
+                win();
+            }
+
         }
 
         ctx.fillStyle = (barre.couleur);
@@ -182,54 +207,58 @@ $(document).on('ready', function () {
         ctx.fillRect(barre.x, barre.y, barre.largeur, barre.hauteur);
         //Fin de la gestion de la barre
 
-        //gestion de la balle
+        //## gestion de la balle ##//
 
-        //gestion de l'aleatoire du debut
+        // gestion de l'aleatoire du debut
         if (balle.direction_x == 0)
             balle.direction_x = -1;
         if (balle.direction_y == 0)
-            balle.direction_y = 1; 
+            balle.direction_y = -1;
 
-        if (balle.x + 10 == canvas.width) {
+        if (balle.x + balle.radius >= canvas.width) {
             //si la balle touche a droite
             balle.direction_x = balle.direction_x * (-1);
             balle.x = balle.x + balle.direction_x;
         } else {
-            if (balle.x - 10 == 0) {
+            if (balle.x - balle.radius <= 0) {
                 //si la balle touche a gauche
                 balle.direction_x = balle.direction_x * (-1);
-                //console.log(balle.direction_x);
                 balle.x = balle.x + balle.direction_x;
             } else {
                 balle.x = balle.x + balle.direction_x;
             }
         }
 
-        if (balle.y + 10 == canvas.height) {
+        if (balle.y + balle.radius >= canvas.height) {
             //si la balle touche en bas
-            if(balle.x >= barre.x && balle.x <= barre.x+barre.largeur+balle.radius/2 && balle.y > barre.y-balle.radius+2 && balle.y < barre.y+barre.hauteur-5){
-				balle.direction_y = balle.direction_y * (-1);
-				balle.y = balle.y + balle.direction_y;
-			}
-			else
-				gameOver(); 
-           
+            //if (balle.x >= barre.x -balle.radius && balle.x <= barre.x + barre.largeur + balle.radius && balle.y > barre.y - balle.radius + 2 && balle.y < barre.y + barre.hauteur - 5) {
+            gameOver();
         } else {
-            if (balle.y - 10 == 0) {
+            if (balle.y - balle.radius <= 0) {
                 //si la balle touche en haut
                 balle.direction_y = balle.direction_y * (-1);
-                //console.log(balle.direction_y);
                 balle.y = balle.y + balle.direction_y;
             } else {
                 balle.y = balle.y + balle.direction_y;
             }
+        }
+
+        // si la balle touche la barre
+        if(balle.y+(balle.radius/2) == barre.y && balle.x>=barre.x && balle.x<=barre.x+barre.largeur){
+
+            if(balle.x>=barre.x+barre.largeur/2){
+                //si la balle touche la partie gauche de la barre
+                balle.direction_y = ((balle.x-barre.largeur/2)*100/((barre.x+barre.largeur)/2))/100;
+            }
+            balle.direction_y = balle.direction_y * (-1);
         }
 
         ctx.beginPath();
         ctx.fillStyle = (balle.couleur);
         ctx.arc(balle.x, balle.y, balle.radius, 0, 2 * Math.PI);
         ctx.fill();
-        // Fin gestion de la balle
+
+        //## Fin gestion de la balle ##//
 
         drawLevel();
 
@@ -238,29 +267,32 @@ $(document).on('ready', function () {
         $('#vie2').text(vie);
         //Fin de la gestion du score et vie
     }
-    
-     function gameOver() { 
-		 if(vie>1){
-			vie--;
-			balle.x = canvas.width / 2;
-			balle.y = canvas.height - 10;  
-			barre.x = canvas.width / 2 - barre.largeur / 2;
-			barre.y = canvas.height - barre.hauteur - 3;
-		 }
-		else{
-			clearInterval(timerRefresh);
-			window.removeEventListener("keydown", deplacer, false);
-			window.removeEventListener("keyup", stop, false);
-			$('#message').text(" - Perdu - ");
-		 }
-		
-	 }
-	function win() { 
-		clearInterval(timerRefresh);
-		window.removeEventListener("keydown", deplacer, false);
-		window.removeEventListener("keyup", stop, false);
-		$('#message').text(" - BRAVO - ");
-	 }
+
+    function gameOver() {
+        if (vie > 1) {
+            vie--;
+            balle.x = canvas.width / 2;
+            balle.y = canvas.height - 2*balle.radius;
+            barre.x = canvas.width / 2 - barre.largeur / 2;
+            barre.y = canvas.height - barre.hauteur - 3;
+            balle.direction_x = 0;
+            balle.direction_y = 0;
+        }
+        else {
+            clearInterval(timerRefresh);
+            window.removeEventListener("keydown", deplacer, false);
+            window.removeEventListener("keyup", stop, false);
+            $('#message').text(" - Perdu - ");
+        }
+
+    }
+
+    function win() {
+        clearInterval(timerRefresh);
+        window.removeEventListener("keydown", deplacer, false);
+        window.removeEventListener("keyup", stop, false);
+        $('#message').text(" - BRAVO - ");
+    }
 
     $(document).on('click', '#start', function (e) {
         e.preventDefault();
@@ -277,7 +309,7 @@ $(document).on('ready', function () {
     });
 
     $(document).on('click', '#restart', function (e) {
-		//Restart
+        //Restart
         e.preventDefault();
 
         $('#message').text("");
