@@ -222,7 +222,8 @@
 					code = code + "[" + $(this).data('row') + ',' + $(this).data('col') + ', "' + $(this).data('color') + '", 1],';
 				}				
 			});
-			code = code + "];";
+			code = code.substring(0,code.length - 1);
+			code = code + "]";
 			swal({   title: "Code",   text: "Voila ton code : " + code,   type: "success",   confirmButtonText: "Cool" });
 		});
 
