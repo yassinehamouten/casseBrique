@@ -43,7 +43,8 @@ $(document).on('ready', function () {
                 listeBriques.push(b);
             }
 
-            initialize();
+            $( "#start" ).trigger( "click" );
+            swal.close();
         });
 
     var listeBriques = [];
@@ -82,8 +83,6 @@ $(document).on('ready', function () {
             score = 0;
             pause = 0;
             vie = 3;
-        
-
             balle = new creationBalle(canvas.width / 2, canvas.height - 50);
             barre = new creationBarre();
             timerRefresh = setInterval(refresh, 5);
