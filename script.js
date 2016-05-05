@@ -107,26 +107,31 @@ $(document).on('ready', function () {
 
             //## gestion collision brique ##//
 
+            point_haut = balle.y - (balle.radius/2);
+            point_bas = balle.y + (balle.radius/2);
+            point_gauche = balle.x - (balle.radius/2);
+            point_droit = balle.x + (balle.radius/2);
+
             //touche brique partie haute
-            if ((balle.y + balle.radius == y || balle.x + balle.radius == y || balle.x - balle.radius == y ) && balle.x + balle.radius >= x && balle.x + balle.radius <= x + longBrique) {
+            if (point_bas == y && ((point_gauche>=x && point_gauche<=x+longBrique) || (point_droit>=x && point_droit<=x+longBrique))) {
                 listeBriques.splice(i, 1);
                 score += scoreB;
                 balle.direction_y = balle.direction_y * (-1);
             }
             //touche brique partie gauche
-            if (balle.x + balle.radius == x && balle.y + balle.radius >= y && balle.y + balle.radius <= y + hautBrique) {
+            if (point_droit==x && ((point_haut>=y && point_haut<=y+hautBrique)||(point_bas>=y && point_bas<=y+hautBrique))) {
                 listeBriques.splice(i, 1);
                 score += scoreB;
                 balle.direction_x = balle.direction_x * (-1);
             }
             //touche brique partie droite
-            if (balle.x - balle.radius == x + longBrique && balle.y - balle.radius >= y && balle.y - balle.radius <= y + hautBrique) {
+            if (point_gauche==x+longBrique && ((point_haut>=y && point_haut<=y+hautBrique)||(point_bas>=y && point_bas<=y+hautBrique))) {
                 listeBriques.splice(i, 1);
                 score += scoreB;
                 balle.direction_x = balle.direction_x * (-1);
             }
             //touche brique partie basse
-            if ((balle.y - balle.radius == y+hautBrique || balle.x - balle.radius == y+hautBrique || balle.x + balle.radius == y+hautBrique ) && balle.x - balle.radius >= x && balle.x + balle.radius <= x + longBrique) {
+            if (point_haut == y+hautBrique && ((point_gauche>=x && point_gauche<=x+longBrique) || (point_droit>=x && point_droit<=x+longBrique))) {
                 listeBriques.splice(i, 1);
                 score += scoreB;
                 balle.direction_y = balle.direction_y * (-1);
@@ -203,7 +208,7 @@ $(document).on('ready', function () {
         }
 
         // si la balle touche la barre
-        if(balle.y+(balle.radius/2) == barre.y && balle.x>=barre.x && balle.x<=barre.x+barre.largeur){
+        if(balle.y+(balle.radius/2) >= barre.y && balle.x>=barre.x && balle.x<=barre.x+barre.largeur){
 
             if(balle.x>=barre.x+barre.largeur/2){
                 //si la balle touche la partie gauche de la barre
