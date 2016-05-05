@@ -12,15 +12,20 @@ $(document).on('ready', function () {
     var vitesse = 2;
     var pause = 0;
     var vie = 3;
+    var timer = 0;
+    var monChrono; 
+    var listeBriques = [];
+    var listeBriquesDebut = [];
 
     swal({
             title: "Initialisation du jeu",
-            text: "Entre le code que l'éditeur t'a fourni ici :",
+            text: "Entre le code que l'éditeur t'a fourni <a href='editeur.html'> ici </a> :",  
             type: "input",
             showCancelButton: true,
             closeOnConfirm: false,
             animation: "slide-from-top",
-            inputPlaceholder: "Le code ici..."
+            inputPlaceholder: "Le code ici...",
+            html: true
         },
         function(inputValue){
             if (inputValue === false || inputValue === "") 
@@ -40,14 +45,14 @@ $(document).on('ready', function () {
                 var pouvoir = 'test';
                 var scoreB = 1;
                 var b = new Brique(x, y, couleur, pouvoir, scoreB);
-                listeBriques.push(b);
+                listeBriques.push(b); 
             }
-
+			listeBriquesDebut = listeBriques.slice(0);
+	
             $( "#start" ).trigger( "click" );
             swal.close();
         });
-
-    var listeBriques = [];
+     
 
     var creationBalle = function (x, y) {
         this.x = x;
@@ -82,13 +87,20 @@ $(document).on('ready', function () {
     function initialize() {
             score = 0;
             pause = 0;
-            vie = 3;
+            timer = 0;            
+            monChrono = setInterval(chrono,1000);
+            
             balle = new creationBalle(canvas.width / 2, canvas.height - 50);
             barre = new creationBarre();
             timerRefresh = setInterval(refresh, 5);
             window.addEventListener("keydown", deplacer, false);
             window.addEventListener("keyup", stop, false);
+            
     }
+    
+    function chrono(){
+		timer++;
+	}
 
     function deplacer(e) {
         if (e.keyCode == 37 || e.keyCode == 39)
@@ -104,6 +116,7 @@ $(document).on('ready', function () {
             x = listeBriques[i].x;
             y = listeBriques[i].y;
             scoreB = listeBriques[i].scoreB;
+            couleur = listeBriques[i].couleur;;
 
             //## gestion collision brique ##//
 
@@ -141,7 +154,7 @@ $(document).on('ready', function () {
 
             //Else on affiche
             else {
-                ctx.fillStyle = listeBriques[i].couleur;
+                ctx.fillStyle = couleur;
                 ctx.fillRect(x, y, longBrique, hautBrique);
             }
             if (listeBriques.length < 1) {
@@ -226,10 +239,15 @@ $(document).on('ready', function () {
 
         drawLevel();
 
-        //Gestion du score et vie
+        //Gestion du score, vie et timer
         $('#score2').text(score);
         $('#vie2').text(vie);
-        //Fin de la gestion du score et vie
+        $('#timer2').text(timer);
+        if(timer>=60){
+			vie=0;
+			gameOver();
+		}
+        //Fin de la gestion du score, vie et timer
     }
 
     function gameOver() {
@@ -244,18 +262,24 @@ $(document).on('ready', function () {
         }
         else {
             clearInterval(timerRefresh);
+            clearInterval(monChrono);
             window.removeEventListener("keydown", deplacer, false);
             window.removeEventListener("keyup", stop, false);
             $('#message').text(" - Perdu - ");
+            swal("Perdu ! ","T'es carrement mauvais !", "error");            
+			$('#pause').hide();
         }
 
     }
 
     function win() {
         clearInterval(timerRefresh);
+        clearInterval(monChrono);
         window.removeEventListener("keydown", deplacer, false);
         window.removeEventListener("keyup", stop, false);
         $('#message').text(" - BRAVO - ");
+        swal("Bravo !","VICTOIRE !!!!", "success");
+        $('#pause').hide();
     }
 
     $(document).on('click', '#start', function (e) {
@@ -266,7 +290,8 @@ $(document).on('ready', function () {
         $('#restart').show();
         $('#pause').show();
         $('#start').hide();
-
+		$('.timer1').show();
+		$('#difficulte').show();
         initialize();
         drawLevel();
 
@@ -275,13 +300,18 @@ $(document).on('ready', function () {
     $(document).on('click', '#restart', function (e) {
         //Restart
         e.preventDefault();
+        
+        clearInterval(monChrono);
+		timer=0;
 
         $('#message').text("");
         clearInterval(timerRefresh);
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-
+        ctx.clearRect(0, 0, canvas.width, canvas.height);        
+         
+        listeBriques = listeBriquesDebut.slice(0); 		
         initialize();
         drawLevel();
+        $('#pause').show();
     });
 
     $(document).on('click', '#pause', function (e) {
@@ -290,6 +320,7 @@ $(document).on('ready', function () {
         //Mettre en pause
         if (pause == 0) {
             pause = 1;
+            clearInterval(monChrono);
             clearInterval(timerRefresh);
             window.removeEventListener("keydown", deplacer, false);
             window.removeEventListener("keyup", stop, false);
@@ -297,12 +328,69 @@ $(document).on('ready', function () {
         }
         else {//Revenir en game
             pause = 0;
+            monChrono = setInterval(chrono,1000);
             timerRefresh = setInterval(refresh, 5);
             window.addEventListener("keydown", deplacer, false);
             window.addEventListener("keyup", stop, false);
             $('#message').text("");
         }
 
+    });
+    
+    /* Diificulte */
+    
+        $(document).on('click', '#facile', function (e) {
+        e.preventDefault();
+        
+        clearInterval(monChrono);
+		vitesse = 2;
+		vie = 3;
+		timer=0;
+
+        $('#message').text("");
+        clearInterval(timerRefresh);
+        ctx.clearRect(0, 0, canvas.width, canvas.height);        
+         
+        listeBriques = listeBriquesDebut.slice(0); 		
+        initialize();
+        drawLevel();
+        $('#pause').show();
+    });
+    
+        $(document).on('click', '#moyen', function (e) {
+        e.preventDefault();
+        
+        clearInterval(monChrono);
+        vitesse = 5;
+		vie = 2;		
+		timer=0;
+
+        $('#message').text("");
+        clearInterval(timerRefresh);
+        ctx.clearRect(0, 0, canvas.width, canvas.height);        
+         
+        listeBriques = listeBriquesDebut.slice(0); 		
+        initialize();
+        drawLevel();
+        $('#pause').show();
+    });
+    
+        $(document).on('click', '#difficile', function (e) {
+        e.preventDefault();
+        
+        clearInterval(monChrono);
+        vitesse = 15;
+		vie = 1;		
+		timer=0;  
+
+        $('#message').text("");
+        clearInterval(timerRefresh);
+        ctx.clearRect(0, 0, canvas.width, canvas.height);        
+         
+        listeBriques = listeBriquesDebut.slice(0); 		
+        initialize();
+        drawLevel();
+        $('#pause').show();
     });
 
 }); 

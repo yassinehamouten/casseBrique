@@ -44,18 +44,20 @@
 
 			.center
 			{
-				width:200px;
+				width:550px;
 				margin:auto;
 			}
-
-			#valider
+			 
+			.boutonEditeur
 			{
 				background-color: #884080;
 				padding:10px 25px;
 				margin:auto;
-				width:200px;
+				width:250px;
 				color:white;
-				text-decoration: none;
+				text-decoration: none; 
+				display:inline-block;
+				text-align:center;
 			}
 		</style>
 	</head>
@@ -171,9 +173,10 @@
 			<div class="purple" data-color="#884080"></div>
 			<div class="delete" data-color="#FFFFFF"></div>
 		</div>
-
-		<div class="center"><a id="valider" href="#">Valider</a></div>
-
+		<div  class="center" > 
+			 <a id="valider" class="boutonEditeur" href="#">Valider</a> 
+			 <a class="boutonEditeur" href="index.html">Revenir au casse brique</a> 
+		</div>
 		<script src="jquery-2.2.1.min.js"></script>
 		<script src="sweetalert.min.js"></script>
 		<script>
@@ -190,8 +193,7 @@
 			if(mousedown == 1)
 			{
 				$(this).css('background-color',active_color);
-				$(this).attr('data-color',active_color);
-				console.log(active_color);
+				$(this).attr('data-color',active_color); 
 			}
 			
 		});
@@ -217,14 +219,14 @@
 		$("#valider").click(function(){
 			var code = "[";
 			$(".editeur-table td").each(function(){
-				if($(this).data('color') != '#FFFFFF')
+				if($(this).data('color') != '#FFFFFF' && $(this).data('color'))
 				{
 					code = code + "[" + $(this).data('row') + ',' + $(this).data('col') + ', "' + $(this).data('color') + '", 1],';
 				}				
 			});
 			code = code.substring(0,code.length - 1);
 			code = code + "]";
-			swal({   title: "Code",   text: "Voila ton code : " + code,   type: "success",   confirmButtonText: "Cool" });
+			swal({   title: "Code",   text: "Voila ton code : " + code,   type: "success",   confirmButtonText: "Cool !" },function(){document.location.href="index.html";});
 		});
 
 		window.onbeforeunload = function(e) {

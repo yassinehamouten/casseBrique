@@ -21,6 +21,12 @@
 		 #vie1{
 			 display:none;
 		 }
+		 .timer1{
+			 display:none;
+		 } 
+		 #difficulte{
+			 display:none;
+		 } 
 	 </style>
  
 	<body>
@@ -30,8 +36,15 @@
 				<a href="#" id="restart">Redémarrer</a>
 				<a href="#" id="pause">Pause</a>
 				<span id="vie1"> Vie : </span> <span id="vie2">  </span>
-				<span id="score1"> Score : </span> <span id="score2">  </span>
+				<span id="score1"> Score : </span> <span id="score2">  </span>				
+				<span class="timer1"> Timer : </span><span id="timer2">  </span><span class="timer1">sec </span>
 				<span id="message">  </span>
+				
+				<div id="difficulte">
+					<a href="#" id="facile">Facile</a> 
+					<a href="#" id="moyen">Moyen</a> 
+					<a href="#" id="difficile">DIFFICILE</a> 
+				</div>
 			</div>
 			
 			<canvas id="canvas" width="998" height="500" style="border:2px solid blue;margin: 0 auto;">
