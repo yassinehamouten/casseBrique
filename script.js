@@ -125,29 +125,29 @@ $(document).on('ready', function () {
             point_gauche = balle.x - (balle.radius/2);
             point_droit = balle.x + (balle.radius/2);
 
-            //touche brique partie haute
-            if (point_bas == y && ((point_gauche>=x && point_gauche<=x+longBrique) || (point_droit>=x && point_droit<=x+longBrique))) {
-                listeBriques.splice(i, 1);
-                score += scoreB;
-                balle.direction_y = balle.direction_y * (-1);
-            }
-            //touche brique partie gauche
-            if (point_droit==x && ((point_haut>=y && point_haut<=y+hautBrique)||(point_bas>=y && point_bas<=y+hautBrique))) {
-                listeBriques.splice(i, 1);
-                score += scoreB;
-                balle.direction_x = balle.direction_x * (-1);
-            }
-            //touche brique partie droite
-            if (point_gauche==x+longBrique && ((point_haut>=y && point_haut<=y+hautBrique)||(point_bas>=y && point_bas<=y+hautBrique))) {
-                listeBriques.splice(i, 1);
-                score += scoreB;
-                balle.direction_x = balle.direction_x * (-1);
-            }
             //touche brique partie basse
-            if (point_haut == y+hautBrique && ((point_gauche>=x && point_gauche<=x+longBrique) || (point_droit>=x && point_droit<=x+longBrique))) {
+            if (( point_haut<=y+hautBrique && point_haut>=y) && ((point_gauche>=x && point_gauche<=x+longBrique) || (point_droit>=x && point_droit<=x+longBrique))) {
                 listeBriques.splice(i, 1);
                 score += scoreB;
                 balle.direction_y = balle.direction_y * (-1);
+            }else
+            //touche brique partie haute
+            if ((point_bas >= y && point_bas<=y+hautBrique/2) && ((point_gauche>=x && point_gauche<=x+longBrique) || (point_droit>=x && point_droit<=x+longBrique))) {
+                listeBriques.splice(i, 1);
+                score += scoreB;
+                balle.direction_y = balle.direction_y * (-1);
+            }else
+            //touche brique partie gauche
+            if ((point_droit>=x && point_droit<=x+longBrique/2) && ((point_haut>=y && point_haut<=y+hautBrique)||(point_bas>=y && point_bas<=y+hautBrique))) {
+                listeBriques.splice(i, 1);
+                score += scoreB;
+                balle.direction_x = balle.direction_x * (-1);
+            }else
+            //touche brique partie droite
+            if ((point_gauche<=x+longBrique && point_gauche>=x) && ((point_haut>=y && point_haut<=y+hautBrique)||(point_bas>=y && point_bas<=y+hautBrique))) {
+                listeBriques.splice(i, 1);
+                score += scoreB;
+                balle.direction_x = balle.direction_x * (-1);
             }
 
             //## Fin gestion collision brique ##//
@@ -187,10 +187,19 @@ $(document).on('ready', function () {
         //## gestion de la balle ##//
 
         // gestion de l'aleatoire du debut
-        if (balle.direction_x == 0)
+
+        aleaG_D = Math.random()*100+1;
+        aleaPM = Math.random()+1;
+
+        if (balle.direction_x == 0){
             balle.direction_x = -1;
-        if (balle.direction_y == 0)
-            balle.direction_y = -1;
+        }
+
+        aleaPM = Math.random()+1;
+        if (balle.direction_y == 0){
+            balle.direction_y = (-1);
+        }
+
 
         if (balle.x + balle.radius >= canvas.width) {
             //si la balle touche a droite
