@@ -231,12 +231,30 @@ $(document).on('ready', function () {
 
         // si la balle touche la barre
         if(balle.y+(balle.radius/2) >= barre.y && balle.x>=barre.x && balle.x<=barre.x+barre.largeur){
+            
+            centreBalle = balle.x;
+            centreBarre = barre.x+barre.largeur/2;
+            
+            rebond = (centreBalle-centreBarre)/100;
 
-            if(balle.x>=barre.x+barre.largeur/2){
+            rebond<0?balle.direction_x=-1*-rebond:balle.direction_x=rebond;
+            
+            balle.direction_y = balle.direction_y*(-1);
+
+            /*if(balle.x>=barre.x+barre.largeur/2){
                 //si la balle touche la partie gauche de la barre
-                balle.direction_y = ((balle.x-barre.largeur/2)*100/((barre.x+barre.largeur)/2))/100;
-            }
-            balle.direction_y = balle.direction_y * (-1);
+                pourcentage_touche_balle = (((balle.x-barre.largeur/2)*100)/(barre.x + (barre.largeur/2)));
+                console.log("pourcentage :" + pourcentage_touche_balle);
+                console.log("balle.x :" + balle.x);
+                console.log("barre.x :" + barre.x);
+                console.log("barre.largeur" + barre.largeur);
+                balle.direction_x = balle.direction_x * pourcentage_touche_balle/100;
+                balle.direction_y = balle.direction_y * (-(100-pourcentage_touche_balle)/100);
+                /!*balle.direction_y = ((balle.x-barre.largeur/2)*100/((barre.x+barre.largeur)/2))/100;*!/
+            }else{
+                balle.direction_y = balle.direction_y * (-0.5);
+            }*/
+            
         }
 
         ctx.beginPath();
