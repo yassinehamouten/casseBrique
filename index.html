@@ -1,60 +1,44 @@
-﻿<!doctype html>
+<!doctype html>
 <html>
-	<head>
-		<title>Casse Brique</title>
-		<link href="bootstrap.min.css" rel="stylesheet" />
-		<link href="style.css" rel="stylesheet" />
-		<link rel="stylesheet" href="sweetalert.css">
-		<meta http-equiv="content-type" content="text/html; charset=utf-8" /> 
-	</head>
- 
-	 <style>
-		 #restart{
-			 display:none;
-		 }
-		 #pause{
-			 display:none;
-		 }
-		 #score1{
-			 display:none;
-		 } 
-		 #vie1{
-			 display:none;
-		 }
-		 .timer1{
-			 display:none;
-		 } 
-		 #difficulte{
-			 display:none;
-		 } 
-	 </style>
- 
-	<body>
-		<div class="container">
-			<div>
-				<a href="#" id="start">Démarrer</a> 
-				<a href="#" id="restart">Redémarrer</a>
-				<a href="#" id="pause">Pause</a>
-				<span id="vie1"> Vie : </span> <span id="vie2">  </span>
-				<span id="score1"> Score : </span> <span id="score2">  </span>				
-				<span class="timer1"> Timer : </span><span id="timer2">  </span><span class="timer1">sec </span>
-				<span id="message">  </span>
-				
-				<div id="difficulte">
-					<a href="#" id="facile">Facile</a> 
-					<a href="#" id="moyen">Moyen</a> 
-					<a href="#" id="difficile">DIFFICILE</a> 
-				</div>
-			</div>
-			
-			<canvas id="canvas" width="998" height="500" style="border:2px solid blue;margin: 0 auto;">
 
-			</canvas>
+<head>
+	<title>Casse Brique</title>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+
+	<link rel="stylesheet" href="assets/css/bootstrap.min.css" />
+	<link rel="stylesheet" href="assets/css/sweetalert.css" />
+	<link rel="stylesheet" href="assets/css/main.css" />
+</head>
+
+<style>
+
+</style>
+
+<body>
+	<div class="container">
+		<div>
+			<a href="#" id="start">Démarrer</a>
+			<a href="#" id="restart">Redémarrer</a>
+			<a href="#" id="pause">Pause</a>
+			<span id="vie1"> Vie : </span> <span id="vie2">  </span>
+			<span id="score1"> Score : </span> <span id="score2">  </span>
+			<span class="timer1"> Timer : </span><span id="timer2">  </span><span class="timer1">sec </span>
+			<span id="message">  </span>
+
+			<div id="difficulte">
+				<a href="#" id="facile">Facile</a>
+				<a href="#" id="moyen">Moyen</a>
+				<a href="#" id="difficile">DIFFICILE</a>
+			</div>
 		</div>
-		
-		<script type="text/javascript" src="jquery-2.2.1.min.js"></script>
-		<script src="sweetalert.min.js"></script>
-		<script type="text/javascript" src="script.js"></script>
-		
-	</body>
+
+		<canvas id="canvas" width="998" height="500" style="border:2px solid blue;margin: 0 auto;"></canvas>
+	</div>
+
+	<script type="text/javascript" src="assets/js/jquery-2.2.1.min.js"></script>
+	<script src="assets/js/sweetalert.min.js"></script>
+	<script type="text/javascript" src="assets/js/main.js"></script>
+
+</body>
+
 </html>
